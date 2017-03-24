@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Agenda</string>
+    <string name="action_settings">Configurações</string>
+    <string name="developer_name">Gilmar</string>
+    <string name="title_activity_formulario">Editar aluno</string>
+    <string name="first_name">Nome</string>
+    <string name="last_name">Sobrenome</string>
+    <string name="address">Endereço</string>
+    <string name="address_number">Número</string>
+    <string name="complement">Complemento</string>
+    <string name="email">E-mail</string>
+    <string name="website">Site</string>
+    <string name="phone">Telefone</string>
+    <string name="zipcode">CEP</string>
+    <string name="neighborhood">Bairro</string>
+    <string name="city">Cidade</string>
+    <string name="state">Estado</string>
+    <string name="country">País</string>
+    <string name="save">Salvar</string>
+    <string name="search">Buscar</string>
+    <string name="ok">Ok</string>
+</resources>
