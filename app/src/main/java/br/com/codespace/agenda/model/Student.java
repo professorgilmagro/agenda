@@ -1,5 +1,8 @@
 package br.com.codespace.agenda.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -7,7 +10,7 @@ import java.util.Date;
  * Created by gilmar on 22/03/17.
  */
 
-public class Student implements Serializable {
+public class Student implements Parcelable {
     final String MALE = "male";
     final String FEMALE = "female";
 
@@ -30,6 +33,10 @@ public class Student implements Serializable {
 
     public enum Gender {
         MALE, FEMALE
+    }
+
+    public Student() {
+
     }
 
     @Override
@@ -168,4 +175,69 @@ public class Student implements Serializable {
     public String getGender() {
         return gender;
     }
+
+    @Override
+   public int describeContents() {
+       return 0;
+   }
+
+   /**
+    * Storing the Student data to Parcel object
+    **/
+   @Override
+   public void writeToParcel(Parcel dest, int flags) {
+       dest.writeLong(id);
+       dest.writeString(firstName);
+       dest.writeString(lastName);
+       dest.writeString(zipcode);
+       dest.writeString(street);
+       dest.writeString(neighborhood);
+       dest.writeInt(homeNumber);
+       dest.writeString(complement);
+       dest.writeString(city);
+       dest.writeString(state);
+       dest.writeLong(birthDate != null ? birthDate.getTime() : -1);
+       dest.writeString(email);
+       dest.writeString(website);
+       dest.writeString(phoneNumber);
+       dest.writeDouble(score);
+       dest.writeString(gender);
+   }
+
+   /**
+    * Retrieving Student data from Parcel object
+    * This constructor is invoked by the method createFromParcel(Parcel source) of
+    * the object CREATOR
+    **/
+   private Student(Parcel in) {
+       this.id = in.readLong();
+       this.firstName = in.readString();
+       this.lastName = in.readString();
+       this.zipcode = in.readString();
+       this.street = in.readString();
+       this.neighborhood = in.readString();
+       this.homeNumber = in.readInt();
+       this.complement = in.readString();
+       this.city = in.readString();
+       this.state = in.readString();
+       Long tmpDate = in.readLong();
+       this.birthDate = tmpDate == 1 ? null : new Date(tmpDate);
+       this.email = in.readString();
+       this.website = in.readString();
+       this.phoneNumber = in.readString();
+       this.score = in.readDouble();
+       this.gender = in.readString();
+   }
+
+   public static final Parcelable.Creator<Student> CREATOR = new Parcelable.Creator<Student>() {
+       @Override
+       public Student createFromParcel(Parcel source) {
+           return new Student(source);
+       }
+
+       @Override
+       public Student[] newArray(int size) {
+           return new Student[size];
+       }
+   };
 }

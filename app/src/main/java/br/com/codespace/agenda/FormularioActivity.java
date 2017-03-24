@@ -1,5 +1,8 @@
 package br.com.codespace.agenda;
 
+import android.app.DatePickerDialog;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,12 +11,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import br.com.codespace.agenda.dao.StudentDAO;
 import br.com.codespace.agenda.dao.helpers.FormHelper;
 import br.com.codespace.agenda.model.Student;
+
+import java.util.Locale;
 
 public class FormularioActivity extends AppCompatActivity {
 
@@ -27,7 +33,7 @@ public class FormularioActivity extends AppCompatActivity {
         String action = getIntent().getStringExtra("EXTRA_ACTION");
         String title = "Cadastrar aluno";
         if (action.equals(ListaAlunos.EXTRA_ACTION_EDIT)){
-            Student student = (Student) getIntent().getSerializableExtra("EXTRA_ITEM");
+            Student student = (Student) getIntent().getParcelableExtra("EXTRA_ITEM");
             title = String.format("Editar aluno %s", student.getFullName());
             FormHelper helper = new FormHelper(this);
             helper.fillFields(student);
@@ -82,4 +88,11 @@ public class FormularioActivity extends AppCompatActivity {
            }
        });
     }
+
+    private void addCustomDateEvent()
+    {
+
+    }
+
+
 }

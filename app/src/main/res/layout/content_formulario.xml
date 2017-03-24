@@ -97,6 +97,13 @@
         android:inputType="textUri"
         android:hint="@string/website"/>
 
+    <EditText
+        android:id="@+id/birth_date"
+        android:inputType="date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/birth_date"/>
+
     <RatingBar
         android:id="@+id/rtbRanking"
         android:layout_width="wrap_content"
