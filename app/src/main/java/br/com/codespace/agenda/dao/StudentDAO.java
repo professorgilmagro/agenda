@@ -170,6 +170,7 @@ public class StudentDAO extends SQLiteOpenHelper {
         student.setHomeNumber(c.getInt(c.getColumnIndex("home_number")));
         student.setComplement(c.getString(c.getColumnIndex("complement")));
         student.setCity(c.getString(c.getColumnIndex("city")));
+        student.setState(c.getString(c.getColumnIndex("state")));
         student.setGender(c.getString(c.getColumnIndex("gender")));
         student.setScore(c.getDouble(c.getColumnIndex("score")));
         return student;

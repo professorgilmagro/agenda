@@ -88,11 +88,4 @@ public class FormularioActivity extends AppCompatActivity {
            }
        });
     }
-
-    private void addCustomDateEvent()
-    {
-
-    }
-
-
 }
