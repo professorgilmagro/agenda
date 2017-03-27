@@ -176,6 +176,22 @@ public class Student implements Parcelable {
         return gender;
     }
 
+    /**
+     * Retorna o endereço completo do aluno
+     *
+     * @return
+     */
+    public String getAddress() {
+        return String.format(
+                "%s, %s - %s, %s, %s",
+                this.getStreet(),
+                this.getHomeNumber(),
+                this.getNeighborhood(),
+                this.getCity(),
+                this.getState()
+        );
+    }
+
     @Override
    public int describeContents() {
        return 0;

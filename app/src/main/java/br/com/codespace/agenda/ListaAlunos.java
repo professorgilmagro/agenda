@@ -2,7 +2,9 @@ package br.com.codespace.agenda;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Browser;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -99,12 +101,37 @@ public class ListaAlunos extends AppCompatActivity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
-        MenuItem mnuDel = menu.add("Excluir");
-        mnuDel.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        final Student student = (Student) listaAlunos.getItemAtPosition(info.position);
+
+
+        String website = student.getWebsite();
+        if (!website.isEmpty()) {
+            MenuItem menuSite = menu.add("Visitar site");
+            Intent itSite = new Intent(Intent.ACTION_VIEW);
+            if (!website.startsWith("http")) {
+                website = "http://" + website;
+            }
+            itSite.setData(Uri.parse(website));
+            menuSite.setIntent(itSite);
+        }
+
+        if (!(student.getPhoneNumber().isEmpty())) {
+            MenuItem menuSMS = menu.add("Enviar SMS");
+            Intent itSMS = new Intent(Intent.ACTION_VIEW);
+            itSMS.setData(Uri.parse(String.format("sms::%s", student.getPhoneNumber())));
+            menuSMS.setIntent(itSMS);
+        }
+
+        MenuItem menuMapa = menu.add("Ver no mapa");
+        Intent itMap = new Intent(Intent.ACTION_VIEW);
+        itMap.setData(Uri.parse(String.format("geo:0,0?q=%s",student.getAddress())));
+        menuMapa.setIntent(itMap);
+
+        MenuItem menuDel = menu.add("Excluir");
+        menuDel.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-                Student student = (Student) listaAlunos.getItemAtPosition(info.position);
                 StudentDAO dao = new StudentDAO(ListaAlunos.this);
                 dao.delete(student);
                 dao.close();
