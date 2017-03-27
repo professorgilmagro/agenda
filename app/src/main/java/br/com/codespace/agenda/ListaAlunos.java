@@ -1,11 +1,13 @@
 package br.com.codespace.agenda;
 
-import android.app.ListActivity;
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Browser;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
@@ -14,9 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -27,7 +27,9 @@ import br.com.codespace.agenda.model.Student;
 public class ListaAlunos extends AppCompatActivity {
     final static String EXTRA_ACTION_NEW = "new";
     final static String EXTRA_ACTION_EDIT = "edit";
+    final static int REQUEST_CODE_CALL = 555;
     private ListView listaAlunos;
+    private String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +88,7 @@ public class ListaAlunos extends AppCompatActivity {
     /**
      * Adiciona o envento ao botão para adicionar novos itens
      */
-    private void addCreateEvent()
-    {
+    private void addCreateEvent() {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,11 +122,27 @@ public class ListaAlunos extends AppCompatActivity {
             Intent itSMS = new Intent(Intent.ACTION_VIEW);
             itSMS.setData(Uri.parse(String.format("sms::%s", student.getPhoneNumber())));
             menuSMS.setIntent(itSMS);
+
+            this.phone = student.getPhoneNumber();
+            MenuItem menuLigar = menu.add("Ligar");
+            menuLigar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    if (ActivityCompat.checkSelfPermission(ListaAlunos.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(ListaAlunos.this,
+                                new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CODE_CALL);
+                    } else {
+                      Intent itCall = getIntentCall(student.getPhoneNumber());
+                        startActivity(itCall);
+                    }
+                    return false;
+                }
+            });
         }
 
         MenuItem menuMapa = menu.add("Ver no mapa");
         Intent itMap = new Intent(Intent.ACTION_VIEW);
-        itMap.setData(Uri.parse(String.format("geo:0,0?q=%s",student.getAddress())));
+        itMap.setData(Uri.parse(String.format("geo:0,0?q=%s", student.getAddress())));
         menuMapa.setIntent(itMap);
 
         MenuItem menuDel = menu.add("Excluir");
@@ -140,6 +157,45 @@ public class ListaAlunos extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    /**
+     * Retorna um intent de ligação
+     * @param phoneNumber   Número do telefone
+     * @return Intent
+     */
+    private Intent getIntentCall(String phoneNumber)
+    {
+        Intent itCall = new Intent(Intent.ACTION_CALL);
+        itCall.setData(Uri.parse(String.format("tell:%s", phoneNumber)));
+        return itCall;
+    }
+
+    /**
+     * Callback for the result from requesting permissions. This method
+     * is invoked for every call on {@link #requestPermissions(String[], int)}.
+     * <p>
+     * <strong>Note:</strong> It is possible that the permissions request interaction
+     * with the user is interrupted. In this case you will receive empty permissions
+     * and results arrays which should be treated as a cancellation.
+     * </p>
+     *
+     * @param requestCode  The request code passed in {@link #requestPermissions(String[], int)}.
+     * @param permissions  The requested permissions. Never null.
+     * @param grantResults The grant results for the corresponding permissions
+     *                     which is either {@link PackageManager#PERMISSION_GRANTED}
+     *                     or {@link PackageManager#PERMISSION_DENIED}. Never null.
+     * @see #requestPermissions(String[], int)
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_CALL:
+                Intent itCall = getIntentCall(this.phone);
+                startActivity(itCall);
+                break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     /**

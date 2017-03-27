@@ -179,7 +179,7 @@ public class Student implements Parcelable {
     /**
      * Retorna o endereço completo do aluno
      *
-     * @return
+     * @return String
      */
     public String getAddress() {
         return String.format(
