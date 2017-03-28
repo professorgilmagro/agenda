@@ -117,7 +117,7 @@
         android:hint="@string/website"/>
 
     <EditText
-        android:id="@+id/birth_date"
+        android:id="@+id/txtBirthDate"
         android:inputType="date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

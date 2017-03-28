@@ -107,8 +107,10 @@ public class FormularioActivity extends AppCompatActivity {
                 final ImageView imgProfile = (ImageView) findViewById(R.id.imgProfile);
                 Bitmap bitmap = BitmapFactory.decodeFile(this.photoPath);
                 imgProfile.setImageBitmap(bitmap);
+                imgProfile.setTag(this.photoPath);
                 break;
         }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 

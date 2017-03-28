@@ -1,17 +1,28 @@
 package br.com.codespace.agenda.dao.helpers;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.text.format.DateUtils;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import android.widget.Toast;
 import br.com.codespace.agenda.FormularioActivity;
 import br.com.codespace.agenda.R;
 import br.com.codespace.agenda.model.Student;
+
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
  * Created by gilmar on 22/03/17.
  */
 
 public class FormHelper {
+    private final FormularioActivity activity;
     private TextView txtId;
     private TextView txtFirstName;
     private TextView txtLastName;
@@ -23,11 +34,14 @@ public class FormHelper {
     private TextView txtEmail;
     private TextView txtSite;
     private TextView txtPhone;
+    private TextView txtBirthDate;
     private TextView txtHomeNumber;
+    private ImageView imgPhoto;
     private RatingBar rtbScore;
 
     public FormHelper(FormularioActivity activity)
     {
+        this.activity = activity;
         txtId = (TextView) activity.findViewById(R.id.txtId);
         txtFirstName = (TextView) activity.findViewById(R.id.txtFirstName);
         txtLastName = (TextView) activity.findViewById(R.id.txtLastName);
@@ -40,6 +54,8 @@ public class FormHelper {
         txtEmail = (TextView) activity.findViewById(R.id.txtEmail);
         txtSite = (TextView) activity.findViewById(R.id.txtWebsite);
         txtPhone = (TextView) activity.findViewById(R.id.txtPhoneNumber);
+        txtBirthDate = (TextView) activity.findViewById(R.id.txtBirthDate);
+        imgPhoto = (ImageView) activity.findViewById(R.id.imgProfile);
         rtbScore = (RatingBar) activity.findViewById(R.id.rtbRanking);
     }
 
@@ -66,6 +82,15 @@ public class FormHelper {
         student.setWebsite(txtSite.getText().toString());
         student.setPhoneNumber(txtPhone.getText().toString());
         student.setScore(Double.valueOf(rtbScore.getProgress()));
+        student.setPhotoPath(imgPhoto.getTag().toString());
+        if (txtBirthDate.getText() != null) {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            try {
+                student.setBirthDate(formatter.parse(txtBirthDate.getText().toString()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
         return student;
     }
 
@@ -89,5 +114,18 @@ public class FormHelper {
         txtSite.setText(student.getWebsite());
         txtPhone.setText(student.getPhoneNumber());
         rtbScore.setProgress(student.getScore().intValue());
+
+        if (student.getBirthDate() != null) {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            txtBirthDate.setText(formatter.format(student.getBirthDate()));
+        }
+
+        if (student.getPhotoPath() != null) {
+            Bitmap bitmap = BitmapFactory.decodeFile(student.getPhotoPath());
+            Bitmap bitmapReduced = Bitmap.createScaledBitmap(bitmap, 300, 300, true);
+            imgPhoto.setImageBitmap(bitmapReduced);
+            imgPhoto.setScaleType(ImageView.ScaleType.FIT_XY);
+            imgPhoto.setTag(student.getPhotoPath());
+        }
     }
 }

@@ -16,7 +16,7 @@ import br.com.codespace.agenda.model.Student;
  */
 public class StudentDAO extends SQLiteOpenHelper {
     static final private String TABLE_NAME = "students";
-    static final private Integer TABLE_VERSION = 1;
+    static final private Integer TABLE_VERSION = 2;
     static final private String DB_NAME = "Agenda";
 
     public StudentDAO(Context context) {
@@ -42,6 +42,7 @@ public class StudentDAO extends SQLiteOpenHelper {
                     "website        TEXT," +
                     "phone          TEXT," +
                     "score          REAL," +
+                    "photo_path     TEXT," +
                     "gender         TEXT" +
                 ")",
                 TABLE_NAME
@@ -51,10 +52,13 @@ public class StudentDAO extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        String sql = String.format("DROP TABLE IF EXISTS %s", TABLE_NAME);
-        sqLiteDatabase.execSQL(sql);
-        onCreate(sqLiteDatabase);
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        switch (oldVersion) {
+            case 1:
+                String sql = String.format("ALTER TABLE %s ADD COLUMN photo_path TEXT", TABLE_NAME);
+                sqLiteDatabase.execSQL(sql);
+                break;
+        }
     }
 
     /**
@@ -116,6 +120,7 @@ public class StudentDAO extends SQLiteOpenHelper {
         data.put("phone", student.getPhoneNumber());
         data.put("score", student.getScore());
         data.put("gender", student.getGender());
+        data.put("photo_path", student.getPhotoPath());
 
         return data;
     }
@@ -172,6 +177,7 @@ public class StudentDAO extends SQLiteOpenHelper {
         student.setCity(c.getString(c.getColumnIndex("city")));
         student.setState(c.getString(c.getColumnIndex("state")));
         student.setGender(c.getString(c.getColumnIndex("gender")));
+        student.setPhotoPath(c.getString(c.getColumnIndex("photo_path")));
         student.setScore(c.getDouble(c.getColumnIndex("score")));
         return student;
     }

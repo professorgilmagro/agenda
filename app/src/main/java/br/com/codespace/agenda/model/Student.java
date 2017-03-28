@@ -30,6 +30,7 @@ public class Student implements Parcelable {
     private String phoneNumber;
     private Double score;
     private String gender;
+    private String photoPath;
 
     public enum Gender {
         MALE, FEMALE
@@ -62,6 +63,14 @@ public class Student implements Parcelable {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 
     public String getLastName() {
@@ -218,6 +227,7 @@ public class Student implements Parcelable {
        dest.writeString(phoneNumber);
        dest.writeDouble(score);
        dest.writeString(gender);
+       dest.writeString(photoPath);
    }
 
    /**
@@ -243,6 +253,7 @@ public class Student implements Parcelable {
        this.phoneNumber = in.readString();
        this.score = in.readDouble();
        this.gender = in.readString();
+       this.photoPath = in.readString();
    }
 
    public static final Parcelable.Creator<Student> CREATOR = new Parcelable.Creator<Student>() {

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -120,7 +119,7 @@ public class ListaAlunos extends AppCompatActivity {
         if (!(student.getPhoneNumber().isEmpty())) {
             MenuItem menuSMS = menu.add("Enviar SMS");
             Intent itSMS = new Intent(Intent.ACTION_VIEW);
-            itSMS.setData(Uri.parse(String.format("sms::%s", student.getPhoneNumber())));
+            itSMS.setData(Uri.parse(String.format("sms:%s", student.getPhoneNumber())));
             menuSMS.setIntent(itSMS);
 
             this.phone = student.getPhoneNumber();
@@ -132,7 +131,7 @@ public class ListaAlunos extends AppCompatActivity {
                         ActivityCompat.requestPermissions(ListaAlunos.this,
                                 new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CODE_CALL);
                     } else {
-                      Intent itCall = getIntentCall(student.getPhoneNumber());
+                        Intent itCall = getIntentCall(student.getPhoneNumber());
                         startActivity(itCall);
                     }
                     return false;
@@ -167,7 +166,7 @@ public class ListaAlunos extends AppCompatActivity {
     private Intent getIntentCall(String phoneNumber)
     {
         Intent itCall = new Intent(Intent.ACTION_CALL);
-        itCall.setData(Uri.parse(String.format("tell:%s", phoneNumber)));
+        itCall.setData(Uri.parse(String.format("tel:%s", phoneNumber)));
         return itCall;
     }
 
@@ -188,7 +187,7 @@ public class ListaAlunos extends AppCompatActivity {
      * @see #requestPermissions(String[], int)
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case REQUEST_CODE_CALL:
                 Intent itCall = getIntentCall(this.phone);
