@@ -43,12 +43,18 @@ public class StudentAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup parent) {
-        LayoutInflater inflater = LayoutInflater.from(this.context);
-        View viewLayout = inflater.inflate(R.layout.list_item, parent, false);
-        TextView txtName = (TextView) viewLayout.findViewById(R.id.item_nome);
-        TextView txtPhone = (TextView) viewLayout.findViewById(R.id.item_phone);
-        ImageView imgPhoto = (ImageView) viewLayout.findViewById(R.id.item_photo);
+    public View getView(int i, View convertView, ViewGroup parent) {
+        View view = convertView;
+
+        // se a view já foi instanciada, logo não precisamos instanciá-la novamente
+        if (view == null) {
+            LayoutInflater inflater = LayoutInflater.from(this.context);
+            view = inflater.inflate(R.layout.list_item, parent, false);
+        }
+
+        TextView txtName = (TextView) view.findViewById(R.id.item_nome);
+        TextView txtPhone = (TextView) view.findViewById(R.id.item_phone);
+        ImageView imgPhoto = (ImageView) view.findViewById(R.id.item_photo);
         Student student = this.students.get(i);
 
         txtName.setText(student.getFullName());
@@ -60,6 +66,6 @@ public class StudentAdapter extends BaseAdapter {
             imgPhoto.setTag(student.getPhotoPath());
         }
 
-        return viewLayout;
+        return view;
     }
 }
