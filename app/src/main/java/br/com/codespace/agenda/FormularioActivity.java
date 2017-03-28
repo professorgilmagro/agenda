@@ -1,9 +1,17 @@
 package br.com.codespace.agenda;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.PhoneNumberFormattingTextWatcher;
@@ -11,17 +19,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import br.com.codespace.agenda.dao.StudentDAO;
 import br.com.codespace.agenda.dao.helpers.FormHelper;
 import br.com.codespace.agenda.model.Student;
 
+import java.io.File;
 import java.util.Locale;
 
 public class FormularioActivity extends AppCompatActivity {
+    final static int PHOTO_REQUEST_CODE = 666;
+    public String photoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +50,30 @@ public class FormularioActivity extends AppCompatActivity {
 
         this.addSearchZipcodeEvent();
         this.setTitle(title);
+        this.addPhotoEvent();
 
         final TextView txtPhone = (TextView) findViewById(R.id.txtPhoneNumber);
         txtPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher(){});
+    }
+
+    private void addPhotoEvent() {
+        final Button btnPhoto = (Button) findViewById(R.id.btnPhoto);
+
+        btnPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                if (ActivityCompat.checkSelfPermission(ListaAlunos.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                    ActivityCompat.requestPermissions(ListaAlunos.this,
+//                            new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_CALL);
+//                }
+
+                Intent itCam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                FormularioActivity.this.photoPath = String.format("%s/%s.jpg", getExternalFilesDir(null), System.currentTimeMillis());
+                File file = new File(photoPath);
+                itCam.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+                startActivityForResult(itCam, PHOTO_REQUEST_CODE);
+            }
+        });
     }
 
     @Override
@@ -68,6 +98,18 @@ public class FormularioActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case PHOTO_REQUEST_CODE:
+                final ImageView imgProfile = (ImageView) findViewById(R.id.imgProfile);
+                Bitmap bitmap = BitmapFactory.decodeFile(this.photoPath);
+                imgProfile.setImageBitmap(bitmap);
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**

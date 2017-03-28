@@ -12,6 +12,25 @@
     tools:context="br.com.codespace.agenda.FormularioActivity"
     tools:showIn="@layout/activity_formulario">
 
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="220dp">
+    <ImageView
+            android:id="@+id/imgProfile"
+            android:src="@drawable/person"
+            android:background="@color/colorBlue"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+
+        <Button
+            android:id="@+id/btnPhoto"
+            android:background="@drawable/fundo_camera"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginRight="16dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
     <EditText
         android:id="@+id/txtId"
         android:visibility="invisible"
