@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import br.com.codespace.agenda.adapter.StudentAdapter;
 import br.com.codespace.agenda.dao.StudentDAO;
 import br.com.codespace.agenda.model.Student;
 
@@ -79,7 +80,7 @@ public class ListaAlunos extends AppCompatActivity {
     private void fillListView() {
         StudentDAO dao = new StudentDAO(this);
         List<Student> students = dao.getAll();
-        ArrayAdapter adapter = new ArrayAdapter<Student>(this, android.R.layout.simple_list_item_1, students);
+        StudentAdapter adapter = new StudentAdapter(this, students);
         listaAlunos.setAdapter(adapter);
         dao.close();
     }
