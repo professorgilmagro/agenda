@@ -2,9 +2,11 @@ package br.com.codespace.agenda.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.telephony.PhoneNumberUtils;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by gilmar on 22/03/17.
@@ -43,6 +45,11 @@ public class Student implements Parcelable {
     @Override
     public String toString() {
         return String.format("%s - %s", this.getId(), this.getFullName());
+    }
+
+    public Boolean exists()
+    {
+        return this.getId() != null && this.getId() > 0;
     }
 
     public Long getId() {
@@ -165,7 +172,15 @@ public class Student implements Parcelable {
         return phoneNumber;
     }
 
+    public String getPhoneFormattedNumber() {
+        return PhoneNumberUtils.formatNumber(phoneNumber, Locale.getDefault().getCountry());
+    }
+
     public void setPhoneNumber(String phoneNumber) {
+        if (phoneNumber != null) {
+            phoneNumber = PhoneNumberUtils.normalizeNumber(phoneNumber);
+        }
+
         this.phoneNumber = phoneNumber;
     }
 

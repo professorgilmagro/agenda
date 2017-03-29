@@ -157,28 +157,44 @@ public class StudentDAO extends SQLiteOpenHelper {
     }
 
     /**
+     * Retorna todos os registros de alunos contidos na tabela
+     * @return Student
+     */
+    public Student getByPhone(String phone) {
+        String sql = String.format("SELECT * FROM %s WHERE phone = ?", TABLE_NAME);
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(sql, new String[] {phone});
+        Student student = this.fillByCursor(c);
+        c.close();
+        return student;
+    }
+
+    /**
      * Cria uma instância de Student com base nos dados oriundos de um cursor do recordset
      * @param c Cursor
      * @return  Student
      */
     private Student fillByCursor(Cursor c) {
         Student student = new Student();
-        student.setId(c.getLong(c.getColumnIndex("id")));
-        student.setFirstName(c.getString(c.getColumnIndex("first_name")));
-        student.setLastName(c.getString(c.getColumnIndex("last_name")));
-        student.setEmail(c.getString(c.getColumnIndex("email")));
-        student.setWebsite(c.getString(c.getColumnIndex("website")));
-        student.setPhoneNumber(c.getString(c.getColumnIndex("phone")));
-        student.setZipcode(c.getString(c.getColumnIndex("zipcode")));
-        student.setStreet(c.getString(c.getColumnIndex("street")));
-        student.setNeighborhood(c.getString(c.getColumnIndex("neighborhood")));
-        student.setHomeNumber(c.getInt(c.getColumnIndex("home_number")));
-        student.setComplement(c.getString(c.getColumnIndex("complement")));
-        student.setCity(c.getString(c.getColumnIndex("city")));
-        student.setState(c.getString(c.getColumnIndex("state")));
-        student.setGender(c.getString(c.getColumnIndex("gender")));
-        student.setPhotoPath(c.getString(c.getColumnIndex("photo_path")));
-        student.setScore(c.getDouble(c.getColumnIndex("score")));
+        if (c.getCount() > 0) {
+            student.setId(c.getLong(c.getColumnIndex("id")));
+            student.setFirstName(c.getString(c.getColumnIndex("first_name")));
+            student.setLastName(c.getString(c.getColumnIndex("last_name")));
+            student.setEmail(c.getString(c.getColumnIndex("email")));
+            student.setWebsite(c.getString(c.getColumnIndex("website")));
+            student.setPhoneNumber(c.getString(c.getColumnIndex("phone")));
+            student.setZipcode(c.getString(c.getColumnIndex("zipcode")));
+            student.setStreet(c.getString(c.getColumnIndex("street")));
+            student.setNeighborhood(c.getString(c.getColumnIndex("neighborhood")));
+            student.setHomeNumber(c.getInt(c.getColumnIndex("home_number")));
+            student.setComplement(c.getString(c.getColumnIndex("complement")));
+            student.setCity(c.getString(c.getColumnIndex("city")));
+            student.setState(c.getString(c.getColumnIndex("state")));
+            student.setGender(c.getString(c.getColumnIndex("gender")));
+            student.setPhotoPath(c.getString(c.getColumnIndex("photo_path")));
+            student.setScore(c.getDouble(c.getColumnIndex("score")));
+        }
+
         return student;
     }
 

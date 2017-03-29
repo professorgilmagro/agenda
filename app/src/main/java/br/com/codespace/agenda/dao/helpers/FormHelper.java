@@ -82,7 +82,11 @@ public class FormHelper {
         student.setWebsite(txtSite.getText().toString());
         student.setPhoneNumber(txtPhone.getText().toString());
         student.setScore(Double.valueOf(rtbScore.getProgress()));
-        student.setPhotoPath(imgPhoto.getTag().toString());
+
+        if (imgPhoto.getTag() != null) {
+            student.setPhotoPath(imgPhoto.getTag().toString());
+        }
+
         if (txtBirthDate.getText() != null) {
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             try {
@@ -112,7 +116,7 @@ public class FormHelper {
         txtCity.setText(student.getCity());
         txtEmail.setText(student.getEmail());
         txtSite.setText(student.getWebsite());
-        txtPhone.setText(student.getPhoneNumber());
+        txtPhone.setText(student.getPhoneFormattedNumber());
         rtbScore.setProgress(student.getScore().intValue());
 
         if (student.getBirthDate() != null) {
