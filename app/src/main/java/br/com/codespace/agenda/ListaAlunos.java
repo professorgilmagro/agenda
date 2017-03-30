@@ -21,6 +21,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import br.com.codespace.agenda.adapter.StudentAdapter;
+import br.com.codespace.agenda.converter.StudentConverter;
 import br.com.codespace.agenda.dao.StudentDAO;
 import br.com.codespace.agenda.model.Student;
 
@@ -61,14 +62,14 @@ public class ListaAlunos extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.menu_enviar_notas:
+                StudentDAO dao = new StudentDAO(this);
+                StudentConverter converter = new StudentConverter(dao.getAll());
+                dao.close();
+                String json = converter.toJSON();
+                Toast.makeText(this, json, Toast.LENGTH_LONG).show();
+                break;
         }
 
         return super.onOptionsItemSelected(item);

@@ -2,17 +2,14 @@ package br.com.codespace.agenda.dao.helpers;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.text.format.DateUtils;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import android.widget.Toast;
 import br.com.codespace.agenda.FormularioActivity;
 import br.com.codespace.agenda.R;
 import br.com.codespace.agenda.model.Student;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -74,7 +71,7 @@ public class FormHelper {
         student.setLastName(txtLastName.getText().toString());
         student.setZipcode(txtZipcode.getText().toString());
         student.setStreet(txtStreet.getText().toString());
-        student.setHomeNumber(Integer.parseInt(txtHomeNumber.getText().toString()));
+        student.setStreetNumber(Integer.parseInt(txtHomeNumber.getText().toString()));
         student.setNeighborhood(txtNeighborhood.getText().toString());
         student.setCity(txtCity.getText().toString());
         student.setState(txtState.getText().toString());
@@ -110,13 +107,13 @@ public class FormHelper {
         txtLastName.setText(student.getLastName());
         txtZipcode.setText(student.getZipcode());
         txtStreet.setText(student.getStreet());
-        txtHomeNumber.setText(student.getHomeNumber().toString());
+        txtHomeNumber.setText(student.getStreetNumber().toString());
         txtNeighborhood.setText(student.getNeighborhood());
         txtState.setText(student.getState());
         txtCity.setText(student.getCity());
         txtEmail.setText(student.getEmail());
         txtSite.setText(student.getWebsite());
-        txtPhone.setText(student.getPhoneFormattedNumber());
+        txtPhone.setText(student.getPhoneNumberFormatted());
         rtbScore.setProgress(student.getScore().intValue());
 
         if (student.getBirthDate() != null) {

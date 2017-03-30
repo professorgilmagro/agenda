@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.telephony.PhoneNumberUtils;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Locale;
 
@@ -22,7 +21,7 @@ public class Student implements Parcelable {
     private String zipcode;
     private String street;
     private String neighborhood;
-    private Integer homeNumber;
+    private Integer streetNumber;
     private String complement;
     private String city;
     private String state;
@@ -112,12 +111,12 @@ public class Student implements Parcelable {
         this.neighborhood = neighborhood;
     }
 
-    public Integer getHomeNumber() {
-        return homeNumber;
+    public Integer getStreetNumber() {
+        return streetNumber;
     }
 
-    public void setHomeNumber(Integer homeNumber) {
-        this.homeNumber = homeNumber;
+    public void setStreetNumber(Integer streetNumber) {
+        this.streetNumber = streetNumber;
     }
 
     public String getComplement() {
@@ -172,7 +171,7 @@ public class Student implements Parcelable {
         return phoneNumber;
     }
 
-    public String getPhoneFormattedNumber() {
+    public String getPhoneNumberFormatted() {
         return PhoneNumberUtils.formatNumber(phoneNumber, Locale.getDefault().getCountry());
     }
 
@@ -209,7 +208,7 @@ public class Student implements Parcelable {
         return String.format(
                 "%s, %s - %s, %s, %s",
                 this.getStreet(),
-                this.getHomeNumber(),
+                this.getStreetNumber(),
                 this.getNeighborhood(),
                 this.getCity(),
                 this.getState()
@@ -232,7 +231,7 @@ public class Student implements Parcelable {
        dest.writeString(zipcode);
        dest.writeString(street);
        dest.writeString(neighborhood);
-       dest.writeInt(homeNumber);
+       dest.writeInt(streetNumber);
        dest.writeString(complement);
        dest.writeString(city);
        dest.writeString(state);
@@ -257,7 +256,7 @@ public class Student implements Parcelable {
        this.zipcode = in.readString();
        this.street = in.readString();
        this.neighborhood = in.readString();
-       this.homeNumber = in.readInt();
+       this.streetNumber = in.readInt();
        this.complement = in.readString();
        this.city = in.readString();
        this.state = in.readString();

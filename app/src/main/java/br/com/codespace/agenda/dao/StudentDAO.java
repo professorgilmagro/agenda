@@ -112,7 +112,7 @@ public class StudentDAO extends SQLiteOpenHelper {
         data.put("zipcode", student.getZipcode());
         data.put("street", student.getStreet());
         data.put("neighborhood", student.getNeighborhood());
-        data.put("home_number", student.getHomeNumber());
+        data.put("home_number", student.getStreetNumber());
         data.put("complement", student.getComplement());
         data.put("city", student.getCity());
         data.put("state", student.getState());
@@ -186,7 +186,7 @@ public class StudentDAO extends SQLiteOpenHelper {
             student.setZipcode(c.getString(c.getColumnIndex("zipcode")));
             student.setStreet(c.getString(c.getColumnIndex("street")));
             student.setNeighborhood(c.getString(c.getColumnIndex("neighborhood")));
-            student.setHomeNumber(c.getInt(c.getColumnIndex("home_number")));
+            student.setStreetNumber(c.getInt(c.getColumnIndex("home_number")));
             student.setComplement(c.getString(c.getColumnIndex("complement")));
             student.setCity(c.getString(c.getColumnIndex("city")));
             student.setState(c.getString(c.getColumnIndex("state")));
