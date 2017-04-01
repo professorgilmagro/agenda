@@ -30,6 +30,7 @@ public class StudentConverter {
                 json.key("numero").value(student.getStreetNumber());
                 json.key("email").value(student.getEmail());
                 json.key("telefone").value(student.getPhoneNumber());
+                json.key("nota").value(student.getScore());
                 json.endObject();
             }
             json.endArray().endObject().endArray().endObject();

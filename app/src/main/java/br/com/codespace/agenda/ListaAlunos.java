@@ -14,16 +14,15 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.List;
 
 import br.com.codespace.agenda.adapter.StudentAdapter;
-import br.com.codespace.agenda.converter.StudentConverter;
 import br.com.codespace.agenda.dao.StudentDAO;
 import br.com.codespace.agenda.model.Student;
+import br.com.codespace.agenda.service.SendStudentTask;
 
 public class ListaAlunos extends AppCompatActivity {
     final static String EXTRA_ACTION_NEW = "new";
@@ -64,12 +63,13 @@ public class ListaAlunos extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_enviar_notas:
-                StudentDAO dao = new StudentDAO(this);
-                StudentConverter converter = new StudentConverter(dao.getAll());
-                dao.close();
-                String json = converter.toJSON();
-                Toast.makeText(this, json, Toast.LENGTH_LONG).show();
+                SendStudentTask task = new SendStudentTask(this);
+                task.execute();
                 break;
+
+            case R.id.menu_baixar_provas:
+                Intent it = new Intent(this, ProvasActivity.class);
+                item.setIntent(it);
         }
 
         return super.onOptionsItemSelected(item);

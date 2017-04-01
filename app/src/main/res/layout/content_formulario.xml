@@ -13,12 +13,14 @@
     tools:showIn="@layout/activity_formulario">
 
     <RelativeLayout android:layout_width="match_parent" android:layout_height="220dp">
-    <ImageView
+
+        <ImageView
             android:id="@+id/imgProfile"
-            android:src="@drawable/person"
-            android:background="@color/colorBlue"
             android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+            android:layout_height="200dp"
+            android:background="@color/colorBlue"
+            android:contextClickable="false"
+            android:src="@drawable/person" />
 
         <Button
             android:id="@+id/btnPhoto"

@@ -22,6 +22,7 @@ public class SMSReceiver extends BroadcastReceiver {
         String formato = (String) intent.getSerializableExtra("format");
         SmsMessage sms = SmsMessage.createFromPdu(pdu, formato);
         String phone = sms.getDisplayOriginatingAddress();
+        Toast.makeText(context, phone, Toast.LENGTH_LONG);
         StudentDAO dao = new StudentDAO(context);
         Student student = dao.getByPhone(phone);
         if (student.exists()) {

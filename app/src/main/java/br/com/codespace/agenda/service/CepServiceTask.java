@@ -1,4 +1,5 @@
-package br.com.codespace.agenda;
+package br.com.codespace.agenda.service;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -14,10 +15,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import br.com.codespace.agenda.R;
+
 /**
  * Created by gilmar on 22/03/17.
  */
-class CepService extends AsyncTask<String, Void, String> {
+public class CepServiceTask extends AsyncTask<String, Void, String> {
     private static String API_URL = "http://api.postmon.com.br/v1/cep/%s";
     private URL url = null;
     private HttpURLConnection httpURLConnection = null;
@@ -25,7 +28,7 @@ class CepService extends AsyncTask<String, Void, String> {
     private ProgressDialog dialog;
     private Activity context;
 
-    public CepService(Activity context) {
+    public CepServiceTask(Activity context) {
         this.context = context;
     }
 
@@ -34,6 +37,7 @@ class CepService extends AsyncTask<String, Void, String> {
         dialog = new ProgressDialog(context);
         dialog.setCancelable(true);
         dialog.setMessage("Buscando CEP...");
+        dialog.setTitle("Aguarde");
         dialog.show();
     }
 
@@ -90,10 +94,12 @@ class CepService extends AsyncTask<String, Void, String> {
             TextView txtNeighborhood = (TextView) context.findViewById(R.id.txtNeighborhood);
             TextView txtCity = (TextView) context.findViewById(R.id.txtCity);
             TextView txtState = (TextView) context.findViewById(R.id.txtState);
+            TextView txtHomeNumer = (TextView) context.findViewById(R.id.txtAddressNumber);
 
             txtStreet.setText("");
             if (object.has("logradouro")) {
                 txtStreet.setText(object.getString("logradouro"));
+                txtHomeNumer.requestFocus();
             }
 
             txtNeighborhood.setText("");
@@ -110,13 +116,4 @@ class CepService extends AsyncTask<String, Void, String> {
 
         dialog.dismiss();
     }
-
-//    public JSONObject getResults()
-//    {
-//        try {
-//            return new JSONObject(this.result.toString());
-//        } catch (JSONException e) {
-//            return new JSONObject();
-//        }
-//    }
 }

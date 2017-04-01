@@ -59,6 +59,17 @@ public class StudentAdapter extends BaseAdapter {
 
         txtName.setText(student.getFullName());
         txtPhone.setText(student.getPhoneNumber());
+
+        TextView txtEmail = (TextView) view.findViewById(R.id.item_email);
+        if (txtEmail != null) {
+            txtEmail.setText(student.getEmail());
+        }
+
+        TextView txtEndereco = (TextView) view.findViewById(R.id.item_endereco);
+        if (txtEndereco != null) {
+            txtEndereco.setText(student.getAddress());
+        }
+
         if (student.getPhotoPath() != null) {
             Bitmap bitmap = BitmapFactory.decodeFile(student.getPhotoPath());
             Bitmap thumbPhoto = Bitmap.createScaledBitmap(bitmap, 48, 48, true);

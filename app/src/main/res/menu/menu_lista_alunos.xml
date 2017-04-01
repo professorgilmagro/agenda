@@ -8,4 +8,11 @@
         android:title="@string/send_scores"
         android:icon="@drawable/ic_enviar"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_baixar_provas"
+        android:orderInCategory="100"
+        android:title="@string/receive_exams"
+        android:icon="@drawable/ic_receber"
+        app:showAsAction="always" />
 </menu>
