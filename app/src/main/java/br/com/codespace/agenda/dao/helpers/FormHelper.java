@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import br.com.codespace.agenda.FormularioActivity;
 import br.com.codespace.agenda.R;
+import br.com.codespace.agenda.converter.ImageConverter;
 import br.com.codespace.agenda.model.Student;
 
 import java.text.ParseException;
@@ -123,9 +124,8 @@ public class FormHelper {
 
         if (student.getPhotoPath() != null) {
             Bitmap bitmap = BitmapFactory.decodeFile(student.getPhotoPath());
-            Bitmap bitmapReduced = Bitmap.createScaledBitmap(bitmap, 300, 300, true);
-            imgPhoto.setImageBitmap(bitmapReduced);
-            imgPhoto.setScaleType(ImageView.ScaleType.FIT_XY);
+            Bitmap thumbPhoto = ImageConverter.resizeBitmap(bitmap, imgPhoto.getWidth());
+            imgPhoto.setImageBitmap(thumbPhoto);
             imgPhoto.setTag(student.getPhotoPath());
         }
     }

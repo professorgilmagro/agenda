@@ -2,6 +2,7 @@ package br.com.codespace.agenda.converter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 
@@ -31,5 +32,23 @@ public class ImageConverter {
 
     public static ImageConverter create(Context context) {
         return new ImageConverter(context);
+    }
+
+    public static Bitmap resizeBitmap(final Bitmap temp, final int size) {
+        if (size > 0) {
+            int width = temp.getWidth();
+            int height = temp.getHeight();
+            float ratioBitmap = (float) width / (float) height;
+            int finalWidth = size;
+            int finalHeight = size;
+            if (ratioBitmap < 1) {
+                finalWidth = (int) ((float) size * ratioBitmap);
+            } else {
+                finalHeight = (int) ((float) size / ratioBitmap);
+            }
+            return Bitmap.createScaledBitmap(temp, finalWidth, finalHeight, true);
+        } else {
+            return temp;
+        }
     }
 }

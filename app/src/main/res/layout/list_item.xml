@@ -7,6 +7,7 @@
             android:id="@+id/item_photo"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:background="@color/colorBlue"
             android:src="@drawable/person"
     />
 

@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import br.com.codespace.agenda.R;
+import br.com.codespace.agenda.converter.ImageConverter;
 import br.com.codespace.agenda.model.Student;
 
 import java.util.List;
@@ -58,7 +59,7 @@ public class StudentAdapter extends BaseAdapter {
         Student student = this.students.get(i);
 
         txtName.setText(student.getFullName());
-        txtPhone.setText(student.getPhoneNumber());
+        txtPhone.setText(student.getPhoneNumberFormatted());
 
         TextView txtEmail = (TextView) view.findViewById(R.id.item_email);
         if (txtEmail != null) {
@@ -72,7 +73,7 @@ public class StudentAdapter extends BaseAdapter {
 
         if (student.getPhotoPath() != null) {
             Bitmap bitmap = BitmapFactory.decodeFile(student.getPhotoPath());
-            Bitmap thumbPhoto = Bitmap.createScaledBitmap(bitmap, 48, 48, true);
+            Bitmap thumbPhoto = ImageConverter.resizeBitmap(bitmap, imgPhoto.getHeight());
             imgPhoto.setImageBitmap(thumbPhoto);
             imgPhoto.setTag(student.getPhotoPath());
         }
