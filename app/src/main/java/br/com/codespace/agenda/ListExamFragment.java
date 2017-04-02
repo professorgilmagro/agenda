@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,9 +52,6 @@ public class ListExamFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Exam exam = (Exam) parent.getItemAtPosition(position);
 
-                ProvasActivity provaActivity = (ProvasActivity) getActivity();
-                provaActivity.selectMatter(exam);
-
                 // substitui somente se tiver no modo retrato
                 if (!getResources().getBoolean(R.bool.landscape)) {
                     FragmentManager manager = getFragmentManager();
@@ -61,6 +59,10 @@ public class ListExamFragment extends Fragment {
                     tx.replace(R.id.frame_principal, new DetalhesProvaFragment());
                     tx.commit();
                 }
+
+                ProvasActivity provaActivity = (ProvasActivity) getActivity();
+                provaActivity.selectMatter(exam);
+
             }
         });
     }

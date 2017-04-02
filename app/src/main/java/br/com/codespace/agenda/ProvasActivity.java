@@ -9,6 +9,8 @@ import br.com.codespace.agenda.model.Exam;
 
 public class ProvasActivity extends AppCompatActivity {
 
+    public boolean isFragmentDetails;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,11 +27,13 @@ public class ProvasActivity extends AppCompatActivity {
             tx.replace(R.id.frame_detalhes, new DetalhesProvaFragment());
         }
 
+        isFragmentDetails = false;
         tx.commit();
     }
 
     public void selectMatter(Exam exam){
         FragmentManager manager = getSupportFragmentManager();
+        isFragmentDetails = true;
         if (!getResources().getBoolean(R.bool.landscape)) {
             FragmentTransaction tx = manager.beginTransaction();
 
@@ -44,5 +48,22 @@ public class ProvasActivity extends AppCompatActivity {
                     (DetalhesProvaFragment) manager.findFragmentById(R.id.frame_detalhes);
             detalhesFragment.fillFields(exam);
         }
+    }
+
+    /**
+     * Sobrescrito para alterar o comportamento do botão voltar
+     * se tiver no modo retrato, ao pressionar o botão voltar, o sistema deve apenas substituir
+     * os detalhes pela lista novamente
+     */
+    @Override
+    public void onBackPressed() {
+        if (!getResources().getBoolean(R.bool.landscape) && this.isFragmentDetails) {
+            FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+            tx.replace(R.id.frame_principal, new ListExamFragment()).commit();
+            isFragmentDetails = false;
+            return;
+        }
+
+        super.onBackPressed();
     }
 }
