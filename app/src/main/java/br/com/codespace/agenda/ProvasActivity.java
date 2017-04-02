@@ -1,19 +1,10 @@
 package br.com.codespace.agenda;
 
-import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import java.util.Arrays;
-import java.util.List;
-
-import br.com.codespace.agenda.adapter.ExamAdapter;
 import br.com.codespace.agenda.model.Exam;
 
 public class ProvasActivity extends AppCompatActivity {
@@ -23,31 +14,35 @@ public class ProvasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_provas);
 
-        List portTopics = Arrays.asList("Sujeito", "Objeto direto", "Objeto indireto");
-        Exam port = new Exam("Portugês", "20/12/2017", portTopics);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction tx = fragmentManager.beginTransaction();
 
-        List MatTopics = Arrays.asList("Equação 2º grau", "Raiz quadrada", "Logaritmos", "Trigonometria");
-        Exam mat = new Exam("Matemática", "20/12/2017", MatTopics);
+        // inclui o fragmento da lista de provas
+        tx.replace(R.id.frame_principal, new ListExamFragment());
 
-        List exams = Arrays.asList(port, mat);
-        ExamAdapter adapter = new ExamAdapter(this, exams);
-        ListView lista = (ListView) findViewById(R.id.provas_lista);
-        lista.setAdapter(adapter);
+        // se estiver em modo paisagem, inclui o fragmento de detalhes
+        if (getResources().getBoolean(R.bool.landscape)) {
+            tx.replace(R.id.frame_detalhes, new DetalhesProvaFragment());
+        }
 
-        this.addExamListEvent();
+        tx.commit();
     }
 
-    private void addExamListEvent()
-    {
-        final ListView lista = (ListView) findViewById(R.id.provas_lista);
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Exam exam = (Exam) parent.getItemAtPosition(position);
-                Intent it = new Intent(ProvasActivity.this, DetalheProvaActivity.class);
-                it.putExtra("exam", exam);
-                startActivity(it);
-            }
-        });
+    public void selectMatter(Exam exam){
+        FragmentManager manager = getSupportFragmentManager();
+        if (!getResources().getBoolean(R.bool.landscape)) {
+            FragmentTransaction tx = manager.beginTransaction();
+
+            DetalhesProvaFragment detalhesFragment = new DetalhesProvaFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("exam", exam);
+            detalhesFragment.setArguments(bundle);
+            tx.replace(R.id.frame_principal, detalhesFragment);
+            tx.commit();
+        } else {
+            DetalhesProvaFragment detalhesFragment =
+                    (DetalhesProvaFragment) manager.findFragmentById(R.id.frame_detalhes);
+            detalhesFragment.fillFields(exam);
+        }
     }
 }

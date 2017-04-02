@@ -48,7 +48,6 @@
         </receiver>
 
         <activity android:name=".ProvasActivity" />
-        <activity android:name=".DetalheProvaActivity"></activity>
     </application>
 
 </manifest>
