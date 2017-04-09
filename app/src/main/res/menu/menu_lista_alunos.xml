@@ -15,4 +15,11 @@
         android:title="@string/receive_exams"
         android:icon="@drawable/ic_receber"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_mapa"
+        android:orderInCategory="100"
+        android:title="@string/see_in_map"
+        android:icon="@drawable/ic_mapa"
+        app:showAsAction="always" />
 </menu>

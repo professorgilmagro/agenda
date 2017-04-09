@@ -62,7 +62,6 @@ public class ListExamFragment extends Fragment {
 
                 ProvasActivity provaActivity = (ProvasActivity) getActivity();
                 provaActivity.selectMatter(exam);
-
             }
         });
     }

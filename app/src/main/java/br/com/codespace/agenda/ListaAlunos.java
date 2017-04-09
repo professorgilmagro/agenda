@@ -70,6 +70,11 @@ public class ListaAlunos extends AppCompatActivity {
             case R.id.menu_baixar_provas:
                 Intent it = new Intent(this, ProvasActivity.class);
                 item.setIntent(it);
+                break;
+
+            case R.id.menu_mapa:
+                item.setIntent(new Intent(this, MapaActivity.class));
+                break;
         }
 
         return super.onOptionsItemSelected(item);
